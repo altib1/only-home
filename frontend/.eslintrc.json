@@ -1,0 +1,37 @@
+{
+    "env": {
+      "browser": true,
+      "es6": true
+    },
+    "extends": [
+      "airbnb-base",
+      "plugin:vue/recommended" // add this if using Vue.js
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "sourceType": "module",
+      "parser": "@babel/eslint-parser",
+      "requireConfigFile": false,
+      "babelOptions": {
+        "configFile": "./babel.config.js"
+      },
+      "extraFileExtensions": [".vue"],
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "plugins": [
+      "vue"
+    ],
+    "rules": {
+      "import/no-unresolved": "off", // Disables import/no-unresolved rul
+      "import/extensions": "off", // Disables import/extensions rule
+      "no-console": "off", // Disables no-console rule
+      "no-alert": "off", // Disables no-alert rule
+      "no-debugger": "off", // Disables no-debugger rule
+      "linebreak-style": "off", // Disables linebreak-style rule
+      "no-unused-vars": "off", // Disables no-unused-vars rule
+      "no-underscore-dangle": "off" // Disables no-underscore-dangle rule
+      // Add other rules or modify existing ones as needed
+    }
+}

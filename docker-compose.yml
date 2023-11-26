@@ -1,0 +1,59 @@
+version: "3.2"
+services:
+
+  database:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: onlyhome
+      POSTGRES_PASSWORD: onlyhome
+      POSTGRES_DB: Todo
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database:/var/lib/postgresql/data:rw
+
+  backend:
+    stdin_open: true
+    container_name: backend 
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_URL: postgres://onlyhome:onlyhome@database:5432/Todo?schema=public
+      APP_PORT: 80
+    ports: ['80:80'] 
+    depends_on:
+      - database
+    volumes:
+      - ./backend:/usr/app
+      - /usr/app/node_modules
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+    environment:  
+      - BACKEND_URL=http://localhost/todos
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    depends_on:
+      - database
+    ports:
+      - "5555:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+    restart: unless-stopped
+
+  
