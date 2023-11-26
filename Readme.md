@@ -35,7 +35,7 @@ $ cd Onlyhome
 Start the `frontend`, `backend` and `db` containers using docker-compose
 
 ```	bash
-$ docker-compose up -d 
+$ docker-compose up
 ```
 
 Then you should migrate the prisma schema to the database
@@ -61,3 +61,18 @@ port: 5432
 username: onlyhome
 password: onlyhome
 ```
+
+### Known errors : 
+
+if database exits with this error : 
+```
+FATAL:  could not open directory "pg_notify": No such file or directory
+```
+
+Then comment this lines on docker-compose.yml on the backend container : 
+```
+   # volumes:
+   #   - ./database:/var/lib/postgresql/data:rw
+```
+
+
