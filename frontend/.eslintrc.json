@@ -31,7 +31,15 @@
       "no-debugger": "off", // Disables no-debugger rule
       "linebreak-style": "off", // Disables linebreak-style rule
       "no-unused-vars": "off", // Disables no-unused-vars rule
-      "no-underscore-dangle": "off" // Disables no-underscore-dangle rule
+      "no-underscore-dangle": "off", // Disables no-underscore-dangle rule
       // Add other rules or modify existing ones as needed
+      "indent": "off",
+      "vue/html-indent": "off",
+      "arrow-parens": "off",
+      "keyword-spacing": "off",
+      "space-before-blocks": "off",
+      "comma-spacing":"off",
+      "arrow-spacing":"off",
+      "eol-last":"off"
     }
 }
