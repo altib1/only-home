@@ -1,14 +1,14 @@
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const cors = require('cors');
-const { PrismaClient } = require('@prisma/client');
-
-const config = require('./config/Config');
-const routes = require('./routes/Routes');
-
+import createError from 'http-errors';
+import express from 'express';
+import path from 'path';
+import cookieParser from 'cookie-parser';
+import logger from 'morgan';
+import cors from 'cors';
+import { PrismaClient } from '@prisma/client';
+import authRouter from './routes/auth.route.js';
+import config from './config/Config.js';
+import routes from './routes/Routes.js';
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const app = express();
 
 const prisma = new PrismaClient();
@@ -32,6 +32,18 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/todos', routes);
+
+app.use("/api/auth", authRouter );
+
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  return res.status(statusCode).json({ 
+  success: false,
+  statusCode, 
+  message, 
+  });
+});
 
 // Connect to the database
 connectToDatabase();
@@ -62,4 +74,4 @@ app.on('beforeExit', async () => {
   await prisma.$disconnect();
 });
 
-module.exports = app;
+export default app;
