@@ -75,4 +75,10 @@ Then comment this lines on docker-compose.yml on the backend container :
    #   - ./database:/var/lib/postgresql/data:rw
 ```
 
+### Correcting the code from eslint errors and warnings to keep the code clean : 
+
+```
+cd frontend
+npm run lint -- --fix
+```
 
