@@ -45,3 +45,39 @@ export const signin = async (req, res, next) => {
         next(err);
     }
 };
+
+
+
+export const google = async (req, res, next) => {
+    try {
+        const existingUser = await prisma.user.findUnique({
+            where: {
+                email: req.body.email,
+            },
+        });
+
+        if (existingUser) {
+            const token = jwt.sign({ id: existingUser.id }, process.env.JWT_SECRET);
+            const { password, ...rest } = existingUser;
+            res.cookie('access_token', token, { httpOnly: true }).status(200).json(rest);
+        } else {
+            const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+            const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+            const parts = req.body.name.split(' ');
+            const newUser = await prisma.user.create({
+                data: {
+                    firstName: parts[0],
+                    lastName: parts[1],
+                    email: req.body.email,
+                    password: hashedPassword
+                },
+            });
+
+            const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET);
+            const { password, ...rest } = newUser;
+            res.cookie('access_token', token, { httpOnly: true }).status(200).json(rest);
+        }
+    } catch (err) {
+        next(err);
+    }
+};
