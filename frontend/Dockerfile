@@ -10,12 +10,8 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-RUN npm install sass -g
-
-RUN npm install sass-loader -g
-
 # Copy the entire project files
 COPY . .
 
 # Start the application
-CMD ["npm", "run", "serve"]
+CMD ["npm", "run", "dev"]

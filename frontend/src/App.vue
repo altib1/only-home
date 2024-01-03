@@ -1,32 +1,24 @@
+<script setup>
+import HelloWorld from './components/HelloWorld.vue'
+</script>
+
 <template>
-  <div class="container">
-    <div class="row vertical-centre justify-content-center mt-50">
-      <div class="col-md-6 mx-auto">
-        <CreateTodo />
-        <ListTodo />
-      </div>
-    </div>
+  <div class="flex min-h-screen items-center justify-center bg-gray-100">
+    <router-view />
   </div>
 </template>
 
-<script>
-import CreateTodo from './components/CreateTodo.vue';
-import ListTodo from './components/ListTodo.vue';
-
-export default {
-  name: 'App',
-  components: { CreateTodo, ListTodo },
-};
-</script>
-
-<style lang="scss">
-.vertical-centre {
-  min-height: 100%;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
+<style scoped>
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
 }
-.todo__row {
-  width: 400px;
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.vue:hover {
+  filter: drop-shadow(0 0 2em #42b883aa);
 }
 </style>
