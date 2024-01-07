@@ -28,6 +28,8 @@ services:
     volumes:
       - ./backend:/usr/app
       - /usr/app/node_modules
+    external_links:
+            - mailhog
 
   frontend:
     container_name: frontend
@@ -42,7 +44,7 @@ services:
     depends_on:
       - backend
     environment:  
-      - BACKEND_URL=http://localhost/todos
+      - BACKEND_URL=http://localhost
 
   pgadmin:
     image: dpage/pgadmin4
@@ -56,4 +58,10 @@ services:
       PGADMIN_DEFAULT_PASSWORD: admin
     restart: unless-stopped
 
-  
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"  # SMTP port
+      - "8025:8025"  # Web interface port
+    depends_on:
+      - backend
