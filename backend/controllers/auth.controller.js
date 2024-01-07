@@ -2,6 +2,16 @@ import { PrismaClient } from '@prisma/client';
 import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
 import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
+import { passwordResetEmailHTML } from '../components/passwordResetEmail.js';
+
+// Create a Nodemailer transporter using MailHog's SMTP settings
+const transporter = nodemailer.createTransport({
+  host: 'mailhog',
+  port: 1025, // MailHog's SMTP port
+  ignoreTLS: true, // To ignore TLS issues, as MailHog uses non-secure SMTP
+});
+
 
 const prisma = new PrismaClient();
 
@@ -81,3 +91,65 @@ export const google = async (req, res, next) => {
         next(err);
     }
 };
+
+
+export const requestPasswordReset = async (req, res, next) => {
+    const { email } = req.body;
+    
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          email,
+        },
+      });
+  
+      if (!user) {
+        return next(errorHandler(404, "Le email n'existe pas chez nous"));
+      }
+  
+      // Generate a unique token for password reset
+      const resetToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
+  
+      // Get the HTML email template content
+      const emailBody = passwordResetEmailHTML.replace('${resetToken}', resetToken);
+
+      await transporter.sendMail({
+        from: 'onlyhomedev@gmail.com', // Replace with your email address
+        to: email,
+        subject: 'Password Reset',
+        html: emailBody,
+        //text: `Reset your password by clicking on this link: http://localhost:8080/password-reset-confirmation?token=${resetToken}`,
+      });
+  
+      res.status(200).json({ message: 'Le lien a été envoyée avec succes' });
+    } catch (err) {
+      next(err);
+    }
+  };
+  
+  export const resetPassword = async (req, res, next) => {
+    const { token, newPassword } = req.body;
+  
+    try {
+      // Verify the token
+      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+  
+      // Here, you'd typically check if the token is valid and not expired
+      // You might also want to check if the token matches the user's stored resetToken in the database
+  
+      // Update the user's password with the new password
+      const hashedPassword = bcryptjs.hashSync(newPassword, 10);
+      await prisma.user.update({
+        where: {
+          id: decodedToken.userId,
+        },
+        data: {
+          password: hashedPassword,
+        },
+      });
+  
+      res.status(200).json({ message: 'Password reset successful' });
+    } catch (err) {
+      next(err);
+    }
+  };

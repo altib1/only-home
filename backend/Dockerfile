@@ -10,7 +10,7 @@ COPY package*.json ./
 COPY prisma ./prisma/
 
 # Install dependencies
-RUN npm ci --only=production && npm install bcryptjs
+RUN npm ci --only=production && npm install bcryptjs && npm install
 
 # Copy the entire project files
 COPY . .
@@ -32,4 +32,4 @@ COPY --from=builder /usr/app/prisma ./prisma
 EXPOSE 3000
 
 # Start the application
-CMD ["npm", "start", "start:migrate:prod"]
+CMD ["npm", "run", "dev"]

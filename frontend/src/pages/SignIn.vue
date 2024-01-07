@@ -5,7 +5,7 @@
 
     <form class="flex flex-col items-center w-full max-w-screen-md" @submit.prevent="handleSubmit">
       <!-- Champ Email -->
-      <div class="w-full mb-3">
+      <div class="w-full mb-3" style="width: 328px;">
         <label for="email" class="sr-only">Adresse Email</label>
         <input
           v-model="formData.email"
@@ -13,11 +13,13 @@
           class="border-2 border-gray-300 rounded-md p-2 w-full"
           type="text"
           placeholder="Saisissez votre adresse email"
+          style="width: 328px;"
+          required
         >
       </div>
 
       <!-- Champ Mot de passe -->
-      <div class="w-full mb-3">
+      <div class="w-full mb-3" style="width: 328px;">
         <label for="password" class="sr-only">Mot de passe</label>
         <input
           v-model="formData.password"
@@ -25,6 +27,8 @@
           class="border-2 border-gray-300 rounded-md p-2 w-full"
           type="password"
           placeholder="Saisissez votre mot de passe"
+          style="width: 328px;"
+          required
         >
       </div>
 
@@ -42,6 +46,18 @@
       >
         {{ loading ? 'chargement' : 'Se connecter' }}
       </button>
+
+    <!-- Error display -->
+    <p v-if="error" class="text-red-600 mt-2 font-Bahnschrift text-sm">
+      <div role="alert">
+        <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+          Erreur
+        </div>
+        <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+          <p>Email ou mot de passe incorrect</p>
+        </div>
+      </div>
+    </p>
     </form>
 
     <!-- Ligne horizontale et le texte "ou" -->
@@ -60,7 +76,9 @@
     <!-- Texte "Vous avez oublié votre mot de passe, Cliquez ici" avec les styles -->
     <p class="text-sm mt-2 font-Bahnschrift text-gray-700">
       Vous avez oublié votre mot de passe,
-      <a href="#" class="text-blue-500">Cliquez ici</a>
+      <router-link to="/password-reset-request">
+        <a href="#" class="text-blue-500">Cliquez ici</a>
+      </router-link>
     </p>
   </div>
 </template>
@@ -80,16 +98,17 @@
       const formData = ref({});
       const route = useRouter();
 
-      let loading = false;
-      let error = null;
+      const loading = ref(false);
+      const error = ref(null);
 
       const handleChange = (e) => {
         formData.value = { ...formData.value, [e.target.id]: e.target.value };
+        error.value = null;
       };
 
       const handleSubmit = async () => {
         try {
-          loading = true;
+          loading.value = true;
           const res = await fetch('http://localhost/api/auth/signin', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -97,16 +116,16 @@
           });
           const data = await res.json();
           if (data.success === false) {
-            error = data.message;
-            loading = false;
+            error.value = data.message;
+            loading.value = false;
             return;
           }
-          loading = false;
+          loading.value = false;
           // Navigating to home route '/'
           route.push('/');
         } catch (err) {
-          error = err.message;
-          loading = false;
+          error.value = err.message;
+          loading.value = false;
         }
       };
 
