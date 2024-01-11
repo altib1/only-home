@@ -3,8 +3,14 @@ import Signin from './pages/SignIn.vue';
 import SignUp from './pages/SignUp.vue';
 import PasswordResetRequest from './pages/PasswordReset.vue';
 import PasswordResetConfirmation from './pages/PasswordResetConfirmation.vue';
+import Homepage from './pages/HomePage.vue';
 
 const routes = [
+  {
+    path: '/',
+    name: 'homepage',
+    component: Homepage,
+  },
   {
     path: '/sign-in',
     name: 'SignIn',
