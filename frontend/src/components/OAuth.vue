@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    class="text-white uppercase hover:opacity-95 m-5 font-Bahnschrift text-base font-normal leading-5 tracking-normal text-center"
+    class="inline-flex text-white uppercase hover:opacity-95 m-5 font-Bahnschrift text-base font-normal leading-5 tracking-normal text-center"
     style="
       width: 328px;
       height: 40px;
@@ -19,6 +19,11 @@
     "
     @click="handleGoogleClick"
   >
+  <img
+    src="/googlefill@2x.png"
+    alt="Google Logo"
+    class="w-4 h-4 mr-2"
+  />
     Se connecter avec Google
   </button>
 </template>
