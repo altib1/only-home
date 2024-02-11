@@ -464,13 +464,11 @@ export default defineComponent({
       
         const data = response.data;
         console.log(data);
-      
-        if (data.success) {
-          // Redirect to homepage on success
-          route.push('/');
-        } else {
+      if (data.success === false) {
           this.showError("Une erreur s'est produite lors de l'envoi de votre formulaire. Veuillez réessayer.");
-        }
+      }
+
+        route.push('/dashboard');
       } catch (err) {
         this.loading = false;
         this.error = err.message;

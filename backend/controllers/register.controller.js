@@ -15,13 +15,12 @@ const transporter = nodemailer.createTransport({
 
 
 export const register = async (req, res, next) => {
-  console.log('test');
   let existingUser;
 
-  if (req.userId) {
+  if (req.user.id) {
     existingUser = await prisma.user.findUnique({
       where: {
-        id: req.userId,
+        id: req.user.id,
       },
     });
   }
@@ -85,6 +84,8 @@ const guarantorIdentityDocumentPath = req.files['identityDocumentGuarantor'] && 
     warrantyPeople
   } = req.body;
 
+  console.log(budget);
+
   try {
     let newUser;
 
@@ -92,7 +93,7 @@ const guarantorIdentityDocumentPath = req.files['identityDocumentGuarantor'] && 
       // Update the existing user based on email
       newUser = await prisma.user.update({
         where: {
-          id: req.userId,
+          id: req.user.id,
         },
         data: {
           firstName,
@@ -101,7 +102,7 @@ const guarantorIdentityDocumentPath = req.files['identityDocumentGuarantor'] && 
           gender,
           city,
           postalCode,
-          phoneNumber: parseInt(phoneNumber, 0),
+          phoneNumber: parseInt(phoneNumber),
           students: {
             create: {
               Dossier: {
@@ -117,7 +118,7 @@ const guarantorIdentityDocumentPath = req.files['identityDocumentGuarantor'] && 
                   hobbiesAndInterests,
                   housingType,
                   searchType,
-                  budget: parseInt(budget, 2),
+                  budget: parseInt(budget),
                   documents: {
                     create: [
                       {
@@ -185,7 +186,7 @@ const guarantorIdentityDocumentPath = req.files['identityDocumentGuarantor'] && 
       // Update the existing user based on email
       newUser = await prisma.user.update({
         where: {
-          id: req.userId,
+          id: req.user.id,
         },
         data: {
           firstName,
@@ -194,7 +195,7 @@ const guarantorIdentityDocumentPath = req.files['identityDocumentGuarantor'] && 
           gender,
           city,
           postalCode,
-          phoneNumber: parseInt(phoneNumber, 0),
+          phoneNumber: parseInt(phoneNumber),
           owner: {
             create: {
               ownerAnimalAcceptance: ownerAnimalAcceptance === 'true',
@@ -222,8 +223,8 @@ const guarantorIdentityDocumentPath = req.files['identityDocumentGuarantor'] && 
         },
       });
     }
-
-    res.status(201).json(newUser);
+    const { password: pass, ...rest } = newUser;
+    res.status(201).json(rest);
   } catch (err) {
     next(err);
   }
