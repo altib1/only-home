@@ -88,6 +88,7 @@
   import { useRouter } from 'vue-router';
   import OAuth from '../components/OAuth.vue';
   import VueCookies from 'vue-cookies'
+  import { useStore } from 'vuex';
 
   export default {
     name: 'SignIn',
@@ -98,7 +99,7 @@
     setup() {
       const formData = ref({});
       const route = useRouter();
-
+      const store = useStore();
       const loading = ref(false);
       const error = ref(null);
 
@@ -119,9 +120,13 @@
           if (data.success === false) {
             error.value = data.message;
             loading.value = false;
+            store.dispatch('logout');
             return;
           }
           const token = data.access_token;
+          const user = data.user;
+          await store.dispatch('login', { token, user });
+          console.log(store.getters.isAuthenticated);
           VueCookies.set('access_token', token, '1h', null, null, true);
           loading.value = false;
           // Navigating to home route '/'
@@ -129,6 +134,7 @@
         } catch (err) {
           error.value = err.message;
           loading.value = false;
+          store.dispatch('logout');
         }
       };
 

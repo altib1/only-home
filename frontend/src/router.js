@@ -5,7 +5,11 @@ import PasswordResetRequest from './pages/PasswordReset.vue';
 import PasswordResetConfirmation from './pages/PasswordResetConfirmation.vue';
 import Homepage from './pages/HomePage.vue';
 import RegisterPage from './pages/RegisterPage.vue';
-import DashboardPage from './pages/DashboardPage.vue';
+import store from './store.js';
+import DashboardPageLocations from './pages/owner/DashboardPageLocations.vue';
+import DashboardPageMessagerie from './pages/owner/DashboardPageMessagerie.vue';
+import DashboardPageMonCompte from './pages/owner/DashboardPageMonCompte.vue';
+import DashboardPageAide from './pages/owner/DashboardPageAide.vue';
 
 const routes = [
   {
@@ -39,9 +43,36 @@ const routes = [
     component: RegisterPage,
   },
   {
-    path: '/dashboard',
-    name: 'DashboardPage',
-    component: DashboardPage,
+    path: '/dashboard/locations',
+    name: 'DashboardPageLocations',
+    component: DashboardPageLocations,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/dashboard/messagerie',
+    name: 'DashboardPageMessagerie',
+    component: DashboardPageMessagerie,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/dashboard/mon-compte',
+    name: 'DashboardPageMonCompte',
+    component: DashboardPageMonCompte,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/dashboard/aide',
+    name: 'DashboardPageAide',
+    component: DashboardPageAide,
+    meta: {
+      requiresAuth: true,
+    },
   },
   // Other routes if needed
 ];
@@ -49,6 +80,21 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    const isAuthenticated = store.getters.isAuthenticated;
+    console.log(isAuthenticated);
+
+    if (!isAuthenticated) {
+      next({ name: 'SignIn' });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;
