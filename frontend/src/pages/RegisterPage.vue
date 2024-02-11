@@ -468,7 +468,7 @@ export default defineComponent({
           this.showError("Une erreur s'est produite lors de l'envoi de votre formulaire. Veuillez réessayer.");
       }
 
-        route.push('/dashboard');
+        route.push('/dashboard/locations');
       } catch (err) {
         this.loading = false;
         this.error = err.message;
