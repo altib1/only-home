@@ -4,6 +4,8 @@ import SignUp from './pages/SignUp.vue';
 import PasswordResetRequest from './pages/PasswordReset.vue';
 import PasswordResetConfirmation from './pages/PasswordResetConfirmation.vue';
 import Homepage from './pages/HomePage.vue';
+import RegisterPage from './pages/RegisterPage.vue';
+import DashboardPage from './pages/DashboardPage.vue';
 
 const routes = [
   {
@@ -30,6 +32,16 @@ const routes = [
     path: '/password-reset-confirmation',
     name: 'PasswordResetConfirmation',
     component: PasswordResetConfirmation,
+  },
+  {
+    path: '/register',
+    name: 'RegisterPage',
+    component: RegisterPage,
+  },
+  {
+    path: '/dashboard',
+    name: 'DashboardPage',
+    component: DashboardPage,
   },
   // Other routes if needed
 ];

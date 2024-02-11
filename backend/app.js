@@ -7,7 +7,9 @@ import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
 import authRouter from './routes/auth.route.js';
 import config from './config/Config.js';
-import routes from './routes/Routes.js';
+import registerRouter from './routes/register.route.js';
+import passport from 'passport';
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const app = express();
 
@@ -22,6 +24,30 @@ async function connectToDatabase() {
   }
 }
 
+const jwtOptions = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.JWT_SECRET, // Replace with your own secret key
+};
+
+passport.use(
+  new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
+    try {
+      const user = await prisma.user.findFirst({
+        where: {
+          id: jwtPayload.id,
+        },
+      });
+
+      if (!user) {
+        return done(null, false);
+      }
+
+      return done(null, user);
+    } catch (error) {
+      return done(error, false);
+    }
+  })
+);
 
 app.use(cors()); // Enable CORS
 
@@ -31,9 +57,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/todos', routes);
-
 app.use("/api/auth", authRouter );
+
+app.use("/api/account/information", registerRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

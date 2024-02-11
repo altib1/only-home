@@ -87,6 +87,7 @@
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
   import OAuth from '../components/OAuth.vue';
+  import VueCookies from 'vue-cookies'
 
   export default {
     name: 'SignIn',
@@ -120,6 +121,8 @@
             loading.value = false;
             return;
           }
+          const token = data.access_token;
+          VueCookies.set('access_token', token, '1h', null, null, true);
           loading.value = false;
           // Navigating to home route '/'
           route.push('/');

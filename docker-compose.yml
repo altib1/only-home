@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_USER: onlyhome
       POSTGRES_PASSWORD: onlyhome
-      POSTGRES_DB: Todo
+      POSTGRES_DB: Onlyhome
     ports:
       - "5432:5432"
    # volumes:
@@ -20,7 +20,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     environment:
-      POSTGRES_URL: postgres://onlyhome:onlyhome@database:5432/Todo?schema=public
+      POSTGRES_URL: postgres://onlyhome:onlyhome@database:5432/Onlyhome?schema=public
       APP_PORT: 80
     ports: ['80:80'] 
     depends_on:
@@ -46,17 +46,14 @@ services:
     environment:  
       - BACKEND_URL=http://localhost
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: unless-stopped
     depends_on:
       - database
     ports:
-      - "5555:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
-      PGADMIN_DEFAULT_PASSWORD: admin
-    restart: unless-stopped
+      - "5555:8080"
 
   mailhog:
     image: mailhog/mailhog
@@ -66,21 +63,21 @@ services:
     depends_on:
       - backend
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.2
-    container_name: elasticsearch
-    environment:
-      - discovery.type=single-node
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - elasticsearch-data:/usr/share/elasticsearch/data
+#  elasticsearch:
+ #   image: docker.elastic.co/elasticsearch/elasticsearch:7.15.2
+ #   container_name: elasticsearch
+ #   environment:
+ #     - discovery.type=single-node
+ #   ports:
+ #     - "9200:9200"
+ #     - "9300:9300"
+ #   ulimits:
+ #     memlock:
+ #       soft: -1
+ #       hard: -1
+ #   volumes:
+ #     - elasticsearch-data:/usr/share/elasticsearch/data
 
-volumes:
-  elasticsearch-data:
-    driver: local
+#volumes:
+ # elasticsearch-data:
+ #   driver: local
