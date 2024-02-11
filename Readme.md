@@ -48,16 +48,13 @@ $ npx prisma db push
 Access the app from your browser at http://localhost:8080
 
 
-### Acces the pg container
+### Acces the adminer
 
 To acces the database management application you need to got to http://localhost:5555/
-username: pgadmin4@pgadmin.org
-password: admin
 
 Afteraccesing the application you need to add a new server with the following credentials
 ```
 host: database
-port: 5432
 username: onlyhome
 password: onlyhome
 ```
