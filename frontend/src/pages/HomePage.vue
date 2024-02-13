@@ -28,13 +28,13 @@
     </section>
 
     <footer class="p-4 sm:p-6 bg-[#19347D] flex flex-col">
-        <div class="mx-auto max-w-screen-xl text-center flex item-center">
+        <div name="group-social-icon" class="mx-auto max-w-screen-xl text-center flex item-center">
             <img src="/logo-footer.png" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
         </div>
-        <div class="flex text-center self-center mt-5">
-            <a href="#"><img src="/facebookfill@2x.png" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" /></a>
-            <a href="#"><img src="/24--symbols--instagram@2x.png" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" /></a>
-            <a href="#"><img src="/linkedinfill@2x.png" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" /></a>
+        <div name="group-social-icon" class="flex text-center self-center mt-5">
+            <a href="#"><img src="/facebookfill@2x.png" class="mr-3 h-6 " alt="Flowbite Logo" /></a>
+            <a href="#"><img src="/24--symbols--instagram@2x.png" class="mr-3 h-6 " alt="Flowbite Logo" /></a>
+            <a href="#"><img src="/linkedinfill@2x.png" class="mr-3 h-6 " alt="Flowbite Logo" /></a>
         </div>
     </footer>
 </body>

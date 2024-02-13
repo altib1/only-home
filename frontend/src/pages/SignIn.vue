@@ -97,7 +97,10 @@
     // other components
   },
     setup() {
-      const formData = ref({});
+      const formData = ref({
+        email:'',
+        password:'',
+      });
       const route = useRouter();
       const store = useStore();
       const loading = ref(false);
@@ -111,12 +114,16 @@
       const handleSubmit = async () => {
         try {
           loading.value = true;
+
+          // Effectuer la requête de connexion normale
           const res = await fetch('http://localhost/api/auth/signin', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData.value),
           });
+
           const data = await res.json();
+          
           if (data.success === false) {
             error.value = data.message;
             loading.value = false;
@@ -131,12 +138,24 @@
           loading.value = false;
           // Navigating to home route '/'
           route.push('/');
+          location.reload();
+
+          loading.value = false;
         } catch (err) {
           error.value = err.message;
           loading.value = false;
           store.dispatch('logout');
         }
       };
+
+
+      const checkDatabaseAccessibility = async () => {
+        // Simuler la vérification de l'état de la base de données (peut être un appel à un endpoint dédié)
+        // Ici, nous renvoyons toujours true pour la démonstration
+        return false;
+      };
+
+
 
       return {
         formData,
