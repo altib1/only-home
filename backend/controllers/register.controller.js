@@ -101,6 +101,7 @@ const guarantorIdentityDocumentPath = req.files['identityDocumentGuarantor'] && 
           birthDay: new Date(birthDay),
           gender,
           city,
+          role: 'student',
           postalCode,
           phoneNumber: parseInt(phoneNumber),
           students: {
@@ -194,6 +195,7 @@ const guarantorIdentityDocumentPath = req.files['identityDocumentGuarantor'] && 
           birthDay: new Date(birthDay),
           gender,
           city,
+          role: 'owner',
           postalCode,
           phoneNumber: parseInt(phoneNumber),
           owner: {

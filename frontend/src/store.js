@@ -35,6 +35,8 @@ export default createStore({
     },
     getters: {
       isAuthenticated: (state) => !!state.auth.token,
+      isRoleOwner: (state) => state.auth.user && state.auth.user.role === 'owner',
+      isRoleStudent: (state) => state.auth.user && state.auth.user.role === 'student',
       getUser: (state) => state.auth.user,
     },
     plugins: [createPersistedState()],
