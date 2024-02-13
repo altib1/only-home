@@ -21,6 +21,7 @@ model User {
   postalCode   String?
   city         String?
   gender       String?
+  role         String?
   password     String
   students     Students?
   owner        Owner?

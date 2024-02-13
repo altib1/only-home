@@ -48,6 +48,7 @@ const routes = [
     component: DashboardPageLocations,
     meta: {
       requiresAuth: true,
+      requiredRole: 'owner',
     },
   },
   {
@@ -56,6 +57,7 @@ const routes = [
     component: DashboardPageMessagerie,
     meta: {
       requiresAuth: true,
+      requiredRole: 'owner',
     },
   },
   {
@@ -64,6 +66,7 @@ const routes = [
     component: DashboardPageMonCompte,
     meta: {
       requiresAuth: true,
+      requiredRole: 'owner',
     },
   },
   {
@@ -72,6 +75,7 @@ const routes = [
     component: DashboardPageAide,
     meta: {
       requiresAuth: true,
+      requiredRole: 'owner',
     },
   },
   // Other routes if needed
@@ -85,10 +89,11 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     const isAuthenticated = store.getters.isAuthenticated;
-    console.log(isAuthenticated);
 
     if (!isAuthenticated) {
       next({ name: 'SignIn' });
+    } else if (to.meta.requiredRole && !store.getters[`isRole${to.meta.requiredRole.charAt(0).toUpperCase() + to.meta.requiredRole.slice(1)}`]) {
+      next({ name: 'homepage' });
     } else {
       next();
     }
