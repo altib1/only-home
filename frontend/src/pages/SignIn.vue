@@ -87,6 +87,8 @@
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
   import OAuth from '../components/OAuth.vue';
+  import VueCookies from 'vue-cookies'
+  import { useStore } from 'vuex';
 
   export default {
     name: 'SignIn',
@@ -100,7 +102,7 @@
         password:'',
       });
       const route = useRouter();
-
+      const store = useStore();
       const loading = ref(false);
       const error = ref(null);
 
@@ -123,31 +125,18 @@
           const data = await res.json();
           
           if (data.success === false) {
-            // Connexion échouée, charger les données du fichier JSON de débogage
-            const debugAccountResponse = await fetch('../src/assets/debugAccount.json');
-            const debugAccountData = await debugAccountResponse.json();
-
-            // Simuler une connexion réussie avec les données de débogage
-            console.log('FormData:', formData.value);
-            console.log('DebugAccountData:', debugAccountData);
-
-            if (
-              formData.value.email === debugAccountData.email &&
-              formData.value.password === debugAccountData.password
-            ) {
-              // Réinitialiser les erreurs
-              error.value = null;
-
-              // Connexion réussie, rediriger vers la page d'accueil et recharger la page
-              route.push('/');
-              location.reload();
-            } else {
-              error.value = 'Identifiants incorrects';
-              loading.value = false;
-              return;
-            }
+            error.value = data.message;
+            loading.value = false;
+            store.dispatch('logout');
+            return;
           }
-
+          const token = data.access_token;
+          const user = data.user;
+          await store.dispatch('login', { token, user });
+          console.log(store.getters.isAuthenticated);
+          VueCookies.set('access_token', token, '1h', null, null, true);
+          loading.value = false;
+          // Navigating to home route '/'
           route.push('/');
           location.reload();
 
@@ -155,6 +144,7 @@
         } catch (err) {
           error.value = err.message;
           loading.value = false;
+          store.dispatch('logout');
         }
       };
 

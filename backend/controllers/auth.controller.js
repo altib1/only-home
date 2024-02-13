@@ -12,6 +12,12 @@ const transporter = nodemailer.createTransport({
   ignoreTLS: true, // To ignore TLS issues, as MailHog uses non-secure SMTP
 });
 
+function generateToken(userId) {
+  const payload = { sub: userId };
+  const options = { expiresIn: '1h' };
+
+  return jwt.sign(payload, process.env.JWT_SECRET, options);
+}
 
 const prisma = new PrismaClient();
 
@@ -27,7 +33,8 @@ export const signup = async (req, res, next) => {
                 password: hashedPassword,
             },
         });
-        res.status(201).json(newUser);
+        const token = generateToken(newUser.id);
+        res.status(201).json({ user: newUser, access_token: token });
     } catch (err) {
         next(err);
     }
@@ -50,8 +57,8 @@ export const signin = async (req, res, next) => {
         }
         const token = jwt.sign({ id: valideUser.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
         const { password: pass, ...rest } = valideUser;
-        res.cookie("access_token", token, { httpOnly: true }).status(200).json(rest);
-    } catch (err) {
+        res.cookie("access_token", token, { httpOnly: true, sameSite: 'lax', secure: true }).status(200).json({ user: rest, access_token: token });
+      } catch (err) {
         next(err);
     }
 };
@@ -69,8 +76,8 @@ export const google = async (req, res, next) => {
         if (existingUser) {
             const token = jwt.sign({ id: existingUser.id }, process.env.JWT_SECRET);
             const { password, ...rest } = existingUser;
-            res.cookie('access_token', token, { httpOnly: true }).status(200).json(rest);
-        } else {
+            res.cookie('access_token', token, { httpOnly: true, sameSite: 'lax', secure: true }).status(200).json({ user: rest, access_token: token });
+          } else {
             const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
             const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
             const parts = req.body.name.split(' ');
@@ -85,8 +92,8 @@ export const google = async (req, res, next) => {
 
             const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET);
             const { password, ...rest } = newUser;
-            res.cookie('access_token', token, { httpOnly: true }).status(200).json(rest);
-        }
+            res.cookie('access_token', token, { httpOnly: true, sameSite: 'lax', secure: true }).status(200).json({ user: rest, access_token: token });
+          }
     } catch (err) {
         next(err);
     }

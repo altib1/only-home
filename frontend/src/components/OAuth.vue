@@ -47,11 +47,12 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(
               {
- name: result.user.displayName,
-                 email: result.user.email,
-photo: result.user.photoURL,
-},
+                name: result.user.displayName,
+                email: result.user.email,
+                photo: result.user.photoURL,
+              },
               ),
+            referrerPolicy: 'strict-origin-when-cross-origin',
           });
           const data = await res.json();
           // Handle the data as needed (store in a local variable or state if required)

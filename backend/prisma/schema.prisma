@@ -10,12 +10,6 @@ datasource db {
   url      = env("POSTGRES_URL")
 }
 
-model Todo {
-  id    Int     @id @default(autoincrement())
-  name  String
-  done  Boolean
-}
-
 model User {
   id           Int         @id @default(autoincrement())
   firstName    String
@@ -26,6 +20,8 @@ model User {
   address      String?
   postalCode   String?
   city         String?
+  gender       String?
+  role         String?
   password     String
   students     Students?
   owner        Owner?
@@ -47,6 +43,8 @@ model Owner {
   id         Int          @id @default(autoincrement())
   user       User         @relation(fields: [userId], references: [id])
   userId     Int          @unique
+  ownerAnimalAcceptance Boolean
+  ownerSmokeAcceptance Boolean
   ratings    Rating[]
   signatures Signatures[] @relation("OwnerToSignature")
   documents   Documents[]
@@ -55,25 +53,35 @@ model Owner {
 model Dossier {
   id          Int         @id @default(autoincrement())
   dateDossier DateTime
-  validation  Boolean
+  validation  Boolean?
   Students    Students    @relation(fields: [dossierId], references: [id])
   dossierId   Int         @unique
   documents   Documents[]
+  schoolName String
+  schoolStatus String
+  warrantyPeople Boolean
+  visaleDocument String?
+  hasPets Boolean
+  smokingHabit String
+  preferredHousing String
+  hobbiesAndInterests String?
+  housingType String
+  searchType String
+  budget Int
 }
 
 model Documents {
   id               Int          @id @default(autoincrement())
   libelle          String
   type             String
-  filePath         String // Example: Storing file path
-  fileURL          String // Example: Storing file URL
+  filePath         String
   publicationDate  DateTime
   modificationDate DateTime
   dossier          Dossier?     @relation(fields: [dossierId], references: [id])
-  dossierId        Int
+  dossierId        Int?
   Signatures       Signatures[]
   owner            Owner? @relation(fields: [ownerId], references: [id])
-  ownerId          Int 
+  ownerId          Int?
 }
 
 model LikedByStudents {
