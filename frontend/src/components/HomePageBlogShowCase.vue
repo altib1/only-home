@@ -1,7 +1,7 @@
 <template>
         <h1 class=" text-[#19347D] mb-8 lg:mb-16 text-3xl font-extrabold tracking-tight leading-tight text-center md:text-4xl">Les actualités et aides</h1>
 
-    <div class="row flex m-10">
+    <div class="row justify-content-center flex m-10">
     <div class="max-w-sm rounded overflow-hidden border-0 text-center flex flex-col items-center m-5">
       <img class="w-full" src="/rectangle-40@2x.png" alt="Sunset in the mountains">
       <div class="px-6 py-4">

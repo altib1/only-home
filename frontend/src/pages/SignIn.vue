@@ -95,7 +95,10 @@
     // other components
   },
     setup() {
-      const formData = ref({});
+      const formData = ref({
+        email:'',
+        password:'',
+      });
       const route = useRouter();
 
       const loading = ref(false);
@@ -109,25 +112,60 @@
       const handleSubmit = async () => {
         try {
           loading.value = true;
+
+          // Effectuer la requête de connexion normale
           const res = await fetch('http://localhost/api/auth/signin', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData.value),
           });
+
           const data = await res.json();
+          
           if (data.success === false) {
-            error.value = data.message;
-            loading.value = false;
-            return;
+            // Connexion échouée, charger les données du fichier JSON de débogage
+            const debugAccountResponse = await fetch('../src/assets/debugAccount.json');
+            const debugAccountData = await debugAccountResponse.json();
+
+            // Simuler une connexion réussie avec les données de débogage
+            console.log('FormData:', formData.value);
+            console.log('DebugAccountData:', debugAccountData);
+
+            if (
+              formData.value.email === debugAccountData.email &&
+              formData.value.password === debugAccountData.password
+            ) {
+              // Réinitialiser les erreurs
+              error.value = null;
+
+              // Connexion réussie, rediriger vers la page d'accueil et recharger la page
+              route.push('/');
+              location.reload();
+            } else {
+              error.value = 'Identifiants incorrects';
+              loading.value = false;
+              return;
+            }
           }
-          loading.value = false;
-          // Navigating to home route '/'
+
           route.push('/');
+          location.reload();
+
+          loading.value = false;
         } catch (err) {
           error.value = err.message;
           loading.value = false;
         }
       };
+
+
+      const checkDatabaseAccessibility = async () => {
+        // Simuler la vérification de l'état de la base de données (peut être un appel à un endpoint dédié)
+        // Ici, nous renvoyons toujours true pour la démonstration
+        return false;
+      };
+
+
 
       return {
         formData,
