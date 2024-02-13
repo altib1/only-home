@@ -97,7 +97,7 @@
       @click="closeSignInPopup"
     >
       <div class="bg-white p-8 rounded-lg position-relative" @click.stop>
-        <button @click="closeSignInPopup" class="absolute right-0 pr-8 text-gray-600">
+        <button @click="closeSignInPopup" class="absolute right-0 pr-8 text-gray-600" type="button">
           <svg
             class="w-6 h-6"
             fill="none"
