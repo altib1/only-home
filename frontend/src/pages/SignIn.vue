@@ -114,9 +114,8 @@
       const handleSubmit = async () => {
         try {
           loading.value = true;
-
-          // Effectuer la requête de connexion normale
-          const res = await fetch('http://localhost/api/auth/signin', {
+          const host = import.meta.env.VITE_APP_HOST || 'localhost';
+          const res = await fetch(`http://${host}/api/auth/signin`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData.value),

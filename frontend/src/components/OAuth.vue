@@ -41,8 +41,9 @@
         try {
           const provider = new GoogleAuthProvider();
           const auth = getAuth(app);
+          const host = import.meta.env.VITE_APP_HOST || 'localhost';
           const result = await signInWithPopup(auth, provider);
-          const res = await fetch('http://localhost/api/auth/google', {
+          const res = await fetch(`http://${host}/api/auth/google`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(

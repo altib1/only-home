@@ -454,8 +454,8 @@ export default defineComponent({
             }
           }
         });
-        
-        const response = await axios.post('http://localhost/api/account/information/register', formWithFiles, {
+        const host = import.meta.env.VITE_APP_HOST || 'localhost';
+        const response = await axios.post(`http://${host}/api/account/information/register`, formWithFiles, {
           headers: {
             'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${authToken}`,

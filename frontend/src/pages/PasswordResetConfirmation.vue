@@ -75,8 +75,9 @@
         }
   
         try {
+          const host = import.meta.env.VITE_APP_HOST || 'localhost';
           const token = this.$route.query.token; // Extract token from URL query params
-          const response = await fetch('http://localhost/api/auth/reset-password', {
+          const response = await fetch(`http://${host}/api/auth/reset-password`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
