@@ -63,8 +63,9 @@
     },
     methods: {
       async handleReset() {
+        const host = import.meta.env.VITE_APP_HOST || 'localhost';
         try {
-          const response = await fetch('http://localhost/api/auth/request-password-reset', {
+          const response = await fetch(`http://${host}/api/auth/request-password-reset`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
