@@ -11,9 +11,9 @@
                   Avec OnlyHome, vous pouvez déposer vos annonces avec une garantie de
                   sécurité et ne plus passer du temps sur l’administratif.
                 </div>
-                <div class="mt-10 rounded-8xs [background:linear-gradient(-89.1deg,_#19347d,_rgba(25,_52,_125,_0.85))] w-[16.06rem] flex items-center justify-center py-[0.63rem] px-[0rem] box-border text-white" >
-                  <button>Commencer dès maintenant</button>
-                </div>
+                <button class="relative btnEffect mt-10 rounded-5 [background:] w-[16.06rem] flex items-center justify-center py-[0.63rem] px-[0rem] box-border text-white" >
+                  <p>Commencer dès maintenant</p>
+                </button>
             </div>
             <div class="hidden lg:mt-0 lg:col-span-7 lg:flex">
                 <div class="inline-block w-100">

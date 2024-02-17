@@ -6,7 +6,7 @@
           <button
             @click="activeTabOne"
             :class="{ 'border-b-4 border-red-500': isActiveTabOne }"
-            class="inline-block px-4 py-2 bg-white text-[#19347D] font-[banchrift] font-size-[24px] uppercase"
+            class="inline-block px-4 py-2 bg-white text-[#19347D] font-bold mb-2 font-size-[24px] uppercase"
           >
             Propriétaire
           </button>
@@ -15,9 +15,9 @@
           <button
             @click="activeTabTwo"
             :class="{ 'border-b-4 border-red-500': isActiveTabTwo }"
-            class="inline-block px-4 py-2 bg-white text-[#19347D] font-[banchrift] font-size-[24px] uppercase"          
+            class="inline-block px-4 py-2 bg-white text-[#19347D] font-bold mb-2 font-size-[24px] uppercase"          
             >
-            étuidant
+            étudiant
           </button>
         </li>
       </ul>
