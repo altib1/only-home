@@ -87,7 +87,6 @@
           error.value = null;
           route.push('/sign-in');
         } catch (err) {
-          console.log(err);
           loading.value = false;
           error.value = err.message;
         }
