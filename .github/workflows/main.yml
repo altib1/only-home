@@ -1,9 +1,7 @@
 name: Deploy
 
 on:
-  push:
-    branches:
-      - master
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -30,6 +28,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /home/project
-            docker-compose down
-            docker-compose pull
-            docker-compose up --build -d
+            docker compose down
+            docker compose pull
+            docker compose up --build -d
