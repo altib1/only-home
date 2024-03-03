@@ -89,6 +89,8 @@ const guarantorIdentityDocumentPath = req.files['identityDocumentGuarantor'] && 
   try {
     let newUser;
 
+    if (existingUser.role !== 'student' &&  existingUser.role !== 'owner'){
+
     if (status === 'etudiant') {
       // Update the existing user based on email
       newUser = await prisma.user.update({
@@ -225,6 +227,9 @@ const guarantorIdentityDocumentPath = req.files['identityDocumentGuarantor'] && 
         },
       });
     }
+  } else {
+    next(errorHandler(401, "User is not allowed to register as a student and owner!"));
+  }
     const { password: pass, ...rest } = newUser;
     res.status(201).json(rest);
   } catch (err) {

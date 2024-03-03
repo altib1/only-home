@@ -46,6 +46,7 @@ model Owner {
   ownerAnimalAcceptance Boolean
   ownerSmokeAcceptance Boolean
   ratings    Rating[]
+  housePublication HousePublication[]
   signatures Signatures[] @relation("OwnerToSignature")
   documents   Documents[]
 }
@@ -82,6 +83,8 @@ model Documents {
   Signatures       Signatures[]
   owner            Owner? @relation(fields: [ownerId], references: [id])
   ownerId          Int?
+  house            House? @relation(fields: [houseId], references: [id])
+  houseId          Int?
 }
 
 model LikedByStudents {
@@ -96,77 +99,25 @@ model LikedByStudents {
 model House {
   id                 Int               @id @default(autoincrement())
   address            String
-  postalCode         Int
+  postalCode         String
   city               String
   type               String
-  constructionDate   DateTime
+  rentingType        String
   totalAreaSize      Int
+  numberOfRooms      Int
+  documents          Documents[]
+  description        String
+  furnished          String
+  housingOptions     String
+  energyPerformance  String?
+  pollutionPerformance String?
+  rent               Int
+  rentIncludingTax   Int
+  tax                Int
+  cautionTotal       Int
   likedByStudents    LikedByStudents[]
   payments           Payment?
   publication        HousePublication?
-  principalRooms     PrincipalRooms?
-  rooms              Rooms?
-  kitchen            Kitchen?
-  bathrooms          Bathrooms?
-  garage             Garage?
-  storageRoom        StorageRoom?
-  paymentId          Int
-  housePublicationId Int
-}
-
-model PrincipalRooms {
-  id      Int    @id @default(autoincrement())
-  surface Int
-  house   House? @relation(fields: [houseId], references: [id])
-  houseId Int?   @unique
-}
-
-model Rooms {
-  id      Int    @id @default(autoincrement())
-  surface Int
-  house   House? @relation(fields: [houseId], references: [id])
-  houseId Int?   @unique
-}
-
-model Kitchen {
-  id               Int     @id @default(autoincrement())
-  surface          Int
-  refrigerator     Boolean
-  bakingOven       Boolean
-  sink             Boolean
-  bakingTray       Boolean
-  heatingType      String
-  waterHeatingType String
-  suggestedFor     String
-  rentPrice        Int
-  otherFees        Int
-  rentPriceTTC     Int
-  house            House?  @relation(fields: [houseId], references: [id])
-  houseId          Int?    @unique
-}
-
-model Bathrooms {
-  id             Int     @id @default(autoincrement())
-  surface        Int
-  type           String
-  washingMachine Boolean
-  dryingMachine  Boolean
-  house          House?  @relation(fields: [houseId], references: [id])
-  houseId        Int?    @unique
-}
-
-model Garage {
-  id      Int    @id @default(autoincrement())
-  surface Int
-  house   House? @relation(fields: [houseId], references: [id])
-  houseId Int?   @unique
-}
-
-model StorageRoom {
-  id      Int    @id @default(autoincrement())
-  surface Int
-  house   House? @relation(fields: [houseId], references: [id])
-  houseId Int?   @unique
 }
 
 model Rating {
@@ -184,6 +135,8 @@ model HousePublication {
   house   House   @relation(fields: [houseId], references: [id])
   houseId Int     @unique
   premium Boolean
+  owner   Owner? @relation(fields: [ownerId], references: [id])
+  ownerId  Int?
 }
 
 model Payment {

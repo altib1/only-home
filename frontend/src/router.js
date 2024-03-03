@@ -41,6 +41,9 @@ const routes = [
     path: '/register',
     name: 'RegisterPage',
     component: RegisterPage,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/dashboard/locations',
