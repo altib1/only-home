@@ -4,28 +4,14 @@
         <img class="h-6" src="/logo-footer.png" alt="Your Logo">
       </div>
     </section>
-    <!-- Error message container -->
-    <p v-if="error" class="text-red-600 mt-20 text-center font-Bahnschrift text-sm">
-      <div
-        v-show="errorVisible"
-        class="mb-3 inline-flex w-full items-center rounded-lg text-center bg-danger-100 px-6 py-5 text-base text-danger-700"
-        role="alert"
-      >
-        <span class="mr-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            class="h-5 w-5"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </span>
-        Une erreur s'est produite lors de l'envoi de votre formulaire. Veuillez réessayer.
+    <p v-if="error" class="text-red-600 mt-2 font-Bahnschrift text-sm">
+      <div v-show="errorVisible" role="alert">
+        <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+          Erreur
+        </div>
+        <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+          <p>Une erreur s'est produite lors de l'envoi de votre formulaire. Veuillez réessayer.</p>
+        </div>
       </div>
     </p>
     <div class="flex items-center justify-center min-h-screen">
@@ -377,6 +363,121 @@ export default defineComponent({
       ],
     };
   },
+  setup() {
+    const error = ref(null);
+    const errorVisible = ref(true);
+    const loading = ref(false);
+    const route = useRouter();
+
+    const showError = (message) => {
+    error.value = message;
+
+    // Clear the error after 5 seconds
+    setTimeout(() => {
+      error.value = null;
+    }, 5000);
+  };
+
+    const formData = ref({
+        firstName: null,
+        lastName: null,
+        birthDay: null,
+        phoneNumber: null,
+        address: null,
+        postalCode: null,
+        city: null,
+        gender: "homme",
+        status: "etudiant",
+
+        // Student Information
+        schoolName: null,
+        schoolStatus: null,
+        identityDocument: null,
+
+        // Documents
+        warrantyPeople: null,
+        identityDocumentGuarantor: null,
+        guarantorIncomeJustification: null,
+        addressJustificationGuarantor: null,
+        visaleDocument: null,
+        schoolCertificate: null,
+
+        // Personal Preferences
+        hasPets: null,
+        smokingHabit: null,
+        preferredHousing: null,
+        hobbiesAndInterests: null,
+
+        // Owner Preferences
+        ownerAnimalAcceptance: null,
+        ownerSmokeAcceptance: null,
+
+
+        // Housing Preferences
+        housingType: null,
+        searchType: null,
+        budget: null,
+    })
+
+    const submitForm = async () => {
+  try {
+    loading.value = true;
+    const formWithFiles = new FormData();
+    // Retrieve the authentication token from the cookie
+    const authToken = VueCookies.get('access_token');
+
+    Object.keys(formData.value).forEach((key) => {
+      if (formData.value[key] !== null && formData.value[key] !== undefined) {
+        if (
+          key === 'identityDocument' ||
+          key === 'identityDocumentGuarantor' ||
+          key === 'guarantorIncomeJustification' ||
+          key === 'addressJustificationGuarantor' ||
+          key === 'visaleDocument' ||
+          key === 'schoolCertificate'
+        ) {
+          const file = formData.value[key];
+          const filename = file.name || 'file';
+          formWithFiles.append(key, file, filename);
+        } else {
+          formWithFiles.append(key, formData.value[key]);
+        }
+      }
+    });
+    const host = import.meta.env.VITE_APP_HOST || 'localhost';
+    const response = await axios.post(`http://${host}/api/account/information/register`, formWithFiles, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${authToken}`,
+      },
+    });
+
+    const data = response.data;
+    if (response.status !== 201) {
+      showError("Une erreur s'est produite lors de l'envoi de votre formulaire. Veuillez réessayer.");
+    }
+
+    route.push('/dashboard/locations');
+  } catch (err) {
+    loading.value = false;
+    error.value = err.message;
+    showError("Une erreur s'est produite lors de l'envoi de votre formulaire. Veuillez réessayer.");
+    setTimeout(() => {
+      errorVisible.value = false;
+    }, 5000);
+  }
+  };
+
+  return {
+    error,
+    errorVisible,
+    formData,
+    submitForm,
+    loading,
+    showError,
+  };
+
+  },
   methods: {
     stepClasses(step) {
       return [
@@ -463,12 +564,15 @@ export default defineComponent({
         });
       
         const data = response.data;
-        console.log(data);
-      if (data.success === false) {
+      if (response.status !== 201) {
           this.showError("Une erreur s'est produite lors de l'envoi de votre formulaire. Veuillez réessayer.");
       }
+      if (response.status !== 401) {
+          this.showError("Vous n'êtes pas autorisé à créer un compte propriétaire si vous êtes un étudiant et vice versa");
+          route.push('/');
+      }
 
-        route.push('/dashboard/locations');
+      route.push('/sign-in');
       } catch (err) {
         this.loading = false;
         this.error = err.message;

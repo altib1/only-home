@@ -137,8 +137,6 @@
           loading.value = false;
           // Navigating to home route '/'
           route.push('/');
-          location.reload();
-
           loading.value = false;
         } catch (err) {
           error.value = err.message;
