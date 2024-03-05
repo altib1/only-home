@@ -10,6 +10,7 @@ import DashboardPageLocations from './pages/owner/DashboardPageLocations.vue';
 import DashboardPageMessagerie from './pages/owner/DashboardPageMessagerie.vue';
 import DashboardPageMonCompte from './pages/owner/DashboardPageMonCompte.vue';
 import DashboardPageAide from './pages/owner/DashboardPageAide.vue';
+import Matching from './pages/Matching.vue';
 
 const routes = [
   {
@@ -17,6 +18,13 @@ const routes = [
     name: 'homepage',
     component: Homepage,
   },
+
+  {
+    path: '/matching',
+    name: 'matching',
+    component: Matching,
+  },
+
   {
     path: '/sign-in',
     name: 'SignIn',
