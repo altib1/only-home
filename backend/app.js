@@ -9,6 +9,7 @@ import authRouter from './routes/auth.route.js';
 import config from './config/Config.js';
 import registerRouter from './routes/register.route.js';
 import locationsRouter from './routes/locations.route.js';
+import messagerieRouter from './routes/messagerie.route.js';
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
@@ -62,7 +63,7 @@ app.use("/api/auth", authRouter );
 
 app.use("/api/account/information", registerRouter);
 app.use("/api/locations", locationsRouter);
-
+app.use("/api/messagerie", messagerieRouter);
 // Serve static files from the "uploads" directory
 app.use('/uploads', express.static('uploads'));
 
