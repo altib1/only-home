@@ -91,8 +91,8 @@ model LikedByStudents {
   id        Int      @id @default(autoincrement())
   student   Students @relation(fields: [studentId], references: [id])
   studentId Int
-  house     House    @relation(fields: [houseId], references: [id])
-  houseId   Int
+  housePublication HousePublication @relation(fields: [housePublicationId], references: [id])
+  housePublicationId Int
   likes     Boolean
 }
 
@@ -115,7 +115,6 @@ model House {
   rentIncludingTax   Int
   tax                Int
   cautionTotal       Int
-  likedByStudents    LikedByStudents[]
   payments           Payment?
   publication        HousePublication?
 }
@@ -137,6 +136,7 @@ model HousePublication {
   premium Boolean
   owner   Owner? @relation(fields: [ownerId], references: [id])
   ownerId  Int?
+  likedByStudents    LikedByStudents[]
 }
 
 model Payment {

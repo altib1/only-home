@@ -10,6 +10,7 @@ import authRouter from './routes/auth.route.js';
 import config from './config/Config.js';
 import registerRouter from './routes/register.route.js';
 import locationsRouter from './routes/locations.route.js';
+import messagerieRouter from './routes/messagerie.route.js';
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 
@@ -72,8 +73,8 @@ app.use(express.static(path.join(__dirname, 'public'))); // Servir les fichiers 
 app.use("/api/auth", authRouter);
 app.use("/api/account/information", registerRouter);
 app.use("/api/locations", locationsRouter);
-
-// Servir les fichiers statiques depuis le répertoire "uploads"
+app.use("/api/messagerie", messagerieRouter);
+// Serve static files from the "uploads" directory
 app.use('/uploads', express.static('uploads'));
 
 // Gestion des erreurs pour les routes non trouvées (404) et les erreurs serveur (500)
