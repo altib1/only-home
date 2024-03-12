@@ -80,7 +80,7 @@
                   </div>
               </div>
               <div>
-                  <label for="surfaceSize" class="text-[#19347D] text-sm">Superficie du logement*(en metres carré)</label>
+                  <label for="surfaceSize" class="text-[#19347D] text-sm">Superficie du logement m²</label>
                   <div class="w-full">
                     <input type="number" id="surfaceSize"    :class="{ 'error-border': !formData.surfaceSize && error }" v-model="formData.surfaceSize" class="border p-0 rounded-md w-25" />
                   </div>
@@ -278,7 +278,7 @@
 </template>
 
 <script>
-import { defineComponent, onMounted } from "vue";
+import { defineComponent, onMounted, watch } from "vue";
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
@@ -348,6 +348,14 @@ export default defineComponent({
   const redirectPage = (page) => {
     route.push(page);
   };
+
+  watch(() => formData.value.city, (newCity) => {
+    if (newCity) {
+      let city = newCity.toLowerCase();
+      city = city.replace(/\b\w/g, char => char.toUpperCase());
+      formData.value.city = city;
+    }
+  });
   // gettting the announcements of the current owner
   const created = async () => {
       try {

@@ -135,8 +135,18 @@
           console.log(store.getters.isAuthenticated);
           VueCookies.set('access_token', token, '1h', null, null, true);
           loading.value = false;
-          // Navigating to home route '/'
-          route.push('/');
+
+          // Navigating to route based on the role of the user
+          if (data.user.role === 'owner'){
+            route.push('/dashboard/locations');
+          }
+          else if(data.user.role === 'student'){
+            route.push('/swipe');
+          }
+          else {
+            route.push('/register');
+          }
+
           loading.value = false;
         } catch (err) {
           error.value = err.message;

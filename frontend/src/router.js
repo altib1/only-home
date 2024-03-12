@@ -10,12 +10,42 @@ import DashboardPageLocations from './pages/owner/DashboardPageLocations.vue';
 import DashboardPageMessagerie from './pages/owner/DashboardPageMessagerie.vue';
 import DashboardPageMonCompte from './pages/owner/DashboardPageMonCompte.vue';
 import DashboardPageAide from './pages/owner/DashboardPageAide.vue';
+import Swipe from './pages/SwipePage.vue';
+import Filters from './pages/FiltersPage.vue';
+import Chats from './pages/ChatsPage.vue';
+import Informations from './pages/InformationsPage.vue';
+import LocationsStudent from './pages/LocationsPage.vue';
 
 const routes = [
   {
     path: '/',
     name: 'homepage',
     component: Homepage,
+  },
+  {
+    path: '/swipe',
+    name: 'swipe',
+    component: Swipe,
+  },
+  {
+    path: '/filters',
+    name: 'filters',
+    component: Filters,
+  },
+  {
+    path: '/informations',
+    name: 'informations',
+    component: Informations,
+  },
+  {
+    path: '/locations-student',
+    name: 'locationsStudent',
+    component: LocationsStudent,
+  },
+  {
+    path: '/chats',
+    name: 'chats',
+    component: Chats,
   },
   {
     path: '/sign-in',

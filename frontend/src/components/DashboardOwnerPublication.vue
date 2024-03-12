@@ -15,10 +15,10 @@
           <div class="border p-4 rounded-lg shadow">
             <div v-for="image in publication.house.documents" :key="image">
               <div v-if="image.libelle === 'Image 1'">
-                <img :src="`http://localhost/${image.filePath}`" alt="Publication Image" class="w-full h-32 object-cover mb-2">
+                <img :src="`${buildImageUrl(image.filePath)}`" alt="Publication Image" class="w-full h-32 object-cover mb-2">
               </div>
             </div>
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ publication.house.type }}-{{ publication.house.totalAreaSize }}</h3>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ publication.house.type }}-{{ publication.house.totalAreaSize }} m²</h3>
             <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ publication.house.rentIncludingTax }} €</h3>
             <button @click="editPublication(publication.id)" class=" rounded-5 [background:linear-gradient(-89.1deg,_#19347d,_rgba(25,_52,_125,_0.85))] w-full flex items-center justify-center py-[0.63rem] px-[0rem] box-border cursor-pointer text-white">
               Modifier
@@ -102,6 +102,11 @@ export default {
       }
     };
 
+    const buildImageUrl = (filePath) => {
+      return `http://${host.value}/${filePath}`;
+    };
+
+
     const prevPage = () => {
       if (page.value > 1) {
         page.value--;
@@ -134,6 +139,7 @@ export default {
       page,
       nextPage,
       prevPage,
+      buildImageUrl,
     };
   },
   components: { DashboardLocationsEdit },
