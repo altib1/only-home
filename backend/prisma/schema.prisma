@@ -37,6 +37,7 @@ model Students {
   likedByStudents LikedByStudents[]
   signatures      Signatures[]      @relation("StudentToSignature")
   Payment         Payment[]
+  filters         filters?
 }
 
 model Owner {
@@ -94,6 +95,17 @@ model LikedByStudents {
   housePublication HousePublication @relation(fields: [housePublicationId], references: [id])
   housePublicationId Int
   likes     Boolean
+}
+
+model filters {
+  id                 Int               @id @default(autoincrement())
+  houseType          String?  
+  rentType           String?  
+  city               String?   
+  rentmin            Int? 
+  rentmax            Int?
+  student            Students @relation(fields: [studentId], references: [id])
+  studentId          Int   @unique
 }
 
 model House {

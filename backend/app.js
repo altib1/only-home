@@ -12,6 +12,7 @@ import registerRouter from './routes/register.route.js';
 import locationsRouter from './routes/locations.route.js';
 import messagerieRouter from './routes/messagerie.route.js';
 import passport from 'passport';
+import matchRouter from './routes/match.route.js';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 
 // Obtention du chemin absolu du répertoire de base de l'application
@@ -74,6 +75,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/account/information", registerRouter);
 app.use("/api/locations", locationsRouter);
 app.use("/api/messagerie", messagerieRouter);
+app.use("/api/match", matchRouter);
 // Serve static files from the "uploads" directory
 app.use('/uploads', express.static('uploads'));
 

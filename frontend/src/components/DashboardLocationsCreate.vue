@@ -106,7 +106,7 @@
                   </div>
               </div>
               <div>
-                  <label for="surfaceSize" class="text-[#19347D] text-sm">Superficie du logement*(en metres carré)</label>
+                  <label for="surfaceSize" class="text-[#19347D] text-sm">Superficie du logement m²</label>
                   <div class="w-full">
                     <input type="number" id="surfaceSize"    :class="{ 'error-border': !formData.surfaceSize && error }" v-model="formData.surfaceSize" class="border p-0 rounded-md w-25" />
                   </div>
@@ -307,7 +307,7 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, watch } from "vue";
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
@@ -379,6 +379,13 @@ export default defineComponent({
     image4: null,
     image5: null,
   });
+
+  watch(() => formData.value.city, (newVal, oldVal) => {
+  if (newVal !== null && newVal !== '') {
+    formData.value.city = newVal.toLowerCase();
+    formData.value.city = formData.value.city.charAt(0).toUpperCase() + formData.value.city.slice(1);
+  }
+});
 
   const redirectPage = (page) => {
     route.push(page);
