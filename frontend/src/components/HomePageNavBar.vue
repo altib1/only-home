@@ -1,6 +1,6 @@
 <template>
   <nav class="fixed top-0 w-full z-50 bg-white px-4 lg:px-6 py-2.5">
-    <div class="flex flex-wrap justify-between items-center mx-auto">
+    <div class="flex flex-wrap justify-evenly items-center mx-auto">
       <a href="#" class="flex items-center ml-10">
         <img src="/logo@2x.png" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
       </a>
@@ -8,12 +8,14 @@
         <button
           @click="toggleMenu"
           type="button"
-          class="rounded-5 [background:linear-gradient(-89.1deg,_#19347d,_rgba(25,_52,_125,_0.85))] inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 "
+          class="inline-flex items-center justify-center p-2 ml-1 text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
           aria-controls="mobile-menu-2"
           :aria-expanded="isMenuOpen"
         >
           <span class="sr-only">Open main menu</span>
-          <!-- ...rest of the template... -->
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
         </button>
       </div>
       <div 
@@ -49,7 +51,7 @@
               Blog
             </a>
           </li>
-          <li v-if="!isLoggedIn" class="text-center">
+          <li v-if="!isLoggedIn" class="text-center flex justify-center">
             <button
               @click="openSignInPopup"
               class="rounded-5 text-center [background:linear-gradient(-89.1deg,_#19347d,_rgba(25,_52,_125,_0.85))] w-[16.06rem] flex items-center justify-center py-[0.63rem] px-[0rem] box-border cursor-pointer text-white"

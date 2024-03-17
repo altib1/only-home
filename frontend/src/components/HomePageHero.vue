@@ -1,5 +1,5 @@
 <template>
-          <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+          <div :class="{ 'mt-20 lg:mt-0': !isMobile }" class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
             <div class="mr-auto place-self-center lg:col-span-5">
                 <b class="text-[2.25rem] lg:w-[27rem] w-full text-center" >
                   <span class="text-[#EF282F]">Trouvez</span>
@@ -54,7 +54,7 @@
   </template>
   
   <script>
-    import { defineComponent, ref } from "vue";
+    import { defineComponent, ref, computed } from "vue";
     import SignIn from "../pages/SignIn.vue";
     import { useRouter } from 'vue-router';
   
@@ -67,7 +67,8 @@
             const router = useRouter();
             const isMenuOpen = ref(false);
     const isSignInPopupOpen = ref(false);
-    const isLoggedIn = ref(false); // Ajout d'une variable pour gérer l'état de connexion
+    const isLoggedIn = ref(false);
+    const isMobile = computed(() => window.innerWidth <= 768);
 
     const toggleMenu = () => {
       isMenuOpen.value = !isMenuOpen.value;
@@ -75,7 +76,7 @@
 
     const openSignInPopup = () => {
       if(window.innerWidth <= 600) {
-        router.push('/sign-in'); // replace '/sign-in' with your sign-in page route
+        router.push('/sign-in');
       } else {
         isSignInPopupOpen.value = true;
       }
@@ -96,7 +97,8 @@
       toggleMenu,
       openSignInPopup,
       closeSignInPopup,
-      openProfilePopup
+      openProfilePopup,
+      isMobile,
     };
   },
       });
