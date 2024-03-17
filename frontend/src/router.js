@@ -26,26 +26,46 @@ const routes = [
     path: '/swipe',
     name: 'swipe',
     component: Swipe,
+    meta: {
+      requiresAuth: true,
+      requiredRole: 'student',
+    },
   },
   {
     path: '/filters',
     name: 'filters',
     component: Filters,
+    meta: {
+      requiresAuth: true,
+      requiredRole: 'student',
+    },
   },
   {
     path: '/informations',
     name: 'informations',
     component: Informations,
+    meta: {
+      requiresAuth: true,
+      requiredRole: 'student',
+    },
   },
   {
     path: '/locations-student',
     name: 'locationsStudent',
     component: LocationsStudent,
+    meta: {
+      requiresAuth: true,
+      requiredRole: 'student',
+    },
   },
   {
     path: '/chats',
     name: 'chats',
     component: Chats,
+    meta: {
+      requiresAuth: true,
+      requiredRole: 'student',
+    },
   },
   {
     path: '/sign-in',

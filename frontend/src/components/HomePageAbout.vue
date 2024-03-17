@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div class="container mx-auto">
+    <div class="container mx-auto" id="about">
       <ul class="flex justify-center space-x-2 text-white border-b-4">
         <li>
           <button
@@ -23,7 +23,7 @@
       </ul>
       <div class="p-3 mt-6 bg-white">
         <div v-show="tab === 1">
-          <div class="row flex">
+          <div class="flex flex-col md:flex-row md:space-x-4">
             <div class="max-w-sm rounded overflow-hidden border-0 text-center flex flex-col items-center">
               <div class="w-16 h-16 center border-2 border-red-500 rounded-full flex items-center justify-center text-red-500">
                 1
@@ -70,7 +70,7 @@
           </div>
         </div>
         <div v-show="tab === 2">
-          <div class="row flex">
+          <div class="flex flex-col md:flex-row md:space-x-4">
             <div class="max-w-sm rounded overflow-hidden border-0 text-center flex flex-col items-center">
               <div class="w-16 h-16 center border-2 border-red-500 rounded-full flex items-center justify-center text-red-500">
                 1
