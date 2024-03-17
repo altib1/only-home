@@ -116,8 +116,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 80%;
+  width: 80%;
   justify-content: center;
-  height: 500px;
   border: 1px solid #ddd;
   margin: 10px auto;
   border-radius: 8px;

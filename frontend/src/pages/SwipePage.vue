@@ -173,7 +173,21 @@ const swipe = async (direction) => {
   position: relative;
   padding: 20px;
   background: #FFFFFF;
-  height: 500px;
+  height: 700px;
+  min-height: 500px;
+  min-width: 325px;
+}
+
+@media (max-width: 325px) {
+  .swipe-page {
+    min-width: 100%;
+  }
+}
+
+@media (max-height: 500px) {
+  .swipe-page {
+    min-height: 100%;
+  }
 }
 
 .swipe-page > * {
@@ -189,6 +203,7 @@ const swipe = async (direction) => {
   justify-content: space-between;
   width: auto;
   padding: 0;
+  padding-bottom: 100px;
   z-index: 1000; /* Ensure buttons are above the cards */
 }
 
